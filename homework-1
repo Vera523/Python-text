@@ -1,0 +1,135 @@
+vera@ubuntu:~$ sudo mysql -u root -p;
+[sudo] password for vera: 
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 4
+Server version: 5.7.24-0ubuntu0.18.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| hello_mysql        |
+| mysql              |
+| performance_schema |
+| shopping_mysql     |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use shopping_mysql;
+Database changed
+mysql> select database();
++----------------+
+| database()     |
++----------------+
+| shopping_mysql |
++----------------+
+1 row in set (0.00 sec)
+mysql> create table shop(
+    -> id int auto_increment primary key,
+    -> my_like varchar(30),
+    -> remind_me varchar(30),
+    -> wishes varchar(30) );
+Query OK, 0 rows affected (0.63 sec)
+mysql> desc shop;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| my_like   | varchar(30) | YES  |     | NULL    |                |
+| remind_me | varchar(30) | YES  |     | NULL    |                |
+| wishes    | varchar(30) | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+mysql> insert into shop(id,my_like,remind_me,wishes)
+    -> values(1,"lipstick","11_10remind check","have it");                     Query OK, 1 row affected (0.61 sec)
+mysql> select * from shop;
++----+----------+-------------------+---------+
+| id | my_like  | remind_me         | wishes  |
++----+----------+-------------------+---------+
+|  1 | lipstick | 11_10remind check | have it |
++----+----------+-------------------+---------+
+1 row in set (0.04 sec)
+mysql> insert into shop(my_like,remind_me,wishes) 
+    -> values("123","aiyou","lalal"),
+    -> ("321","aiyou123","hahaha");
+Query OK, 2 rows affected (0.07 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from shop;
++----+----------+-------------------+---------+
+| id | my_like  | remind_me         | wishes  |
++----+----------+-------------------+---------+
+|  1 | lipstick | 11_10remind check | have it |
+|  2 | 123      | aiyou             | lalal   |
+|  3 | 321      | aiyou123          | hahaha  |
++----+----------+-------------------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update shop set wishes="get it" where wishes="lalal";
+Query OK, 1 row affected (0.21 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from shop;
++----+----------+-------------------+---------+
+| id | my_like  | remind_me         | wishes  |
++----+----------+-------------------+---------+
+|  1 | lipstick | 11_10remind check | have it |
+|  2 | 123      | aiyou             | get it  |
+|  3 | 321      | aiyou123          | hahaha  |
++----+----------+-------------------+---------+
+3 rows in set (0.01 sec)
+
+mysql> delete from shop where my_like="321";
+Query OK, 1 row affected (0.11 sec)
+
+mysql> select * from shop;
++----+----------+-------------------+---------+
+| id | my_like  | remind_me         | wishes  |
++----+----------+-------------------+---------+
+|  1 | lipstick | 11_10remind check | have it |
+|  2 | 123      | aiyou             | get it  |
++----+----------+-------------------+---------+
+2 rows in set (0.00 sec)
+
+mysql> alter table shop add isdelete int default 0;
+Query OK, 0 rows affected (0.98 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc shop;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| my_like   | varchar(30) | YES  |     | NULL    |                |
+| remind_me | varchar(30) | YES  |     | NULL    |                |
+| wishes    | varchar(30) | YES  |     | NULL    |                |
+| isdelete  | int(11)     | YES  |     | 0       |                |
++-----------+-------------+------+-----+---------+----------------+
+5 rows in set (0.04 sec)
+
+mysql> update shop set isdelete=1 where my_like="123";
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from shop;
++----+----------+-------------------+---------+----------+
+| id | my_like  | remind_me         | wishes  | isdelete |
++----+----------+-------------------+---------+----------+
+|  1 | lipstick | 11_10remind check | have it |        0 |
+|  2 | 123      | aiyou             | get it  |        1 |
++----+----------+-------------------+---------+----------+
+2 rows in set (0.00 sec)
+
+
+
