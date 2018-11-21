@@ -1,0 +1,275 @@
+vera@ubuntu:~$ sudo mysql -u root -p;
+[sudo] password for vera: 
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 4
+Server version: 5.7.24-0ubuntu0.18.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
+ 
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| hello_mysql        |
+| mysql              |
+| performance_schema |
+| shopping_mysql     |
+| sys                |
++--------------------+
+6 rows in set (15.36 sec)
+
+mysql> 
+mysql> use hello_mysql;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A  
+Database changed
+mysql> 
+mysql> select database();
++-------------+
+| database()  |
++-------------+
+| hello_mysql |
++-------------+
+1 row in set (0.00 sec)
+mysql> create table wx_wage(
+    -> id int auto_increment primary key,
+    -> wage_1 int(20));
+Query OK, 0 rows affected (0.62 sec)
+
+mysql> insert into wx_wage(wage_1)
+    -> values(12345),
+    -> (45678),
+    -> (5000),
+    -> (372836),
+    -> (546374),
+    -> (64537),
+    -> (1000),
+    -> (54389),
+    -> (64738),
+    -> (6473648),
+    -> (748329),
+    -> (12342),
+    -> (17832),
+    -> (23841),
+    -> (248857),
+    -> (248392);
+Query OK, 16 rows affected (0.13 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+mysql> select * from wx_wage;
++----+---------+
+| id | wage_1  |
++----+---------+
+|  1 |   12345 |
+|  2 |   45678 |
+|  3 |    5000 |
+|  4 |  372836 |
+|  5 |  546374 |
+|  6 |   64537 |
+|  7 |    1000 |
+|  8 |   54389 |
+|  9 |   64738 |
+| 10 | 6473648 |
+| 11 |  748329 |
+| 12 |   12342 |
+| 13 |   17832 |
+| 14 |   23841 |
+| 15 |  248857 |
+| 16 |  248392 |
++----+---------+
+16 rows in set (0.00 sec)
+
+mysql> select max(wage_1),min(wage_1),sum(wage_1) from wx_wage;
++-------------+-------------+-------------+
+| max(wage_1) | min(wage_1) | sum(wage_1) |
++-------------+-------------+-------------+
+|     6473648 |        1000 |     8940138 |
++-------------+-------------+-------------+
+1 row in set (0.06 sec)
+
+mysql> select * from wx_wage order by wage_1 desc;
++----+---------+
+| id | wage_1  |
++----+---------+
+| 10 | 6473648 |
+| 11 |  748329 |
+|  5 |  546374 |
+|  4 |  372836 |
+| 15 |  248857 |
+| 16 |  248392 |
+|  9 |   64738 |
+|  6 |   64537 |
+|  8 |   54389 |
+|  2 |   45678 |
+| 14 |   23841 |
+| 13 |   17832 |
+|  1 |   12345 |
+| 12 |   12342 |
+|  3 |    5000 |
+|  7 |    1000 |
++----+---------+
+16 rows in set (0.05 sec)
+
+mysql> select * from wx_wage order by wage_1 desc limit 0,5;
++----+---------+
+| id | wage_1  |
++----+---------+
+| 10 | 6473648 |
+| 11 |  748329 |
+|  5 |  546374 |
+|  4 |  372836 |
+| 15 |  248857 |
++----+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from wx_wage order by wage_1 desc limit 5,5;
++----+--------+
+| id | wage_1 |
++----+--------+
+| 16 | 248392 |
+|  9 |  64738 |
+|  6 |  64537 |
+|  8 |  54389 |
+|  2 |  45678 |
++----+--------+
+5 rows in set (0.00 sec)
+
+mysql> create table qq_wage(
+    -> id int auto_increment primary key,
+    -> wage_2 int(20));
+Query OK, 0 rows affected (0.46 sec)
+
+mysql> insert into qq_wage(wage_2)
+    -> values(76543),(456738),(4727428),(12414),(2000),(4000),(5000),(6000),(7000),(8000),(96775),(36248),(57383),(475822),(758483),(85742);
+Query OK, 16 rows affected (0.05 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+mysql> select * from qq_wage;
++----+---------+
+| id | wage_2  |
++----+---------+
+|  1 |   76543 |
+|  2 |  456738 |
+|  3 | 4727428 |
+|  4 |   12414 |
+|  5 |    2000 |
+|  6 |    4000 |
+|  7 |    5000 |
+|  8 |    6000 |
+|  9 |    7000 |
+| 10 |    8000 |
+| 11 |   96775 |
+| 12 |   36248 |
+| 13 |   57383 |
+| 14 |  475822 |
+| 15 |  758483 |
+| 16 |   85742 |
++----+---------+
+16 rows in set (0.03 sec)
+
+mysql> select sum(wage_2),max(wage_2),min(wage_2) from qq_wage;
++-------------+-------------+-------------+
+| sum(wage_2) | max(wage_2) | min(wage_2) |
++-------------+-------------+-------------+
+|     6815576 |     4727428 |        2000 |
++-------------+-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select * from qq_wage order by id desc;
++----+---------+
+| id | wage_2  |
++----+---------+
+| 16 |   85742 |
+| 15 |  758483 |
+| 14 |  475822 |
+| 13 |   57383 |
+| 12 |   36248 |
+| 11 |   96775 |
+| 10 |    8000 |
+|  9 |    7000 |
+|  8 |    6000 |
+|  7 |    5000 |
+|  6 |    4000 |
+|  5 |    2000 |
+|  4 |   12414 |
+|  3 | 4727428 |
+|  2 |  456738 |
+|  1 |   76543 |
++----+---------+
+16 rows in set (0.00 sec)
+
+mysql> select * from qq_wage order by id desc limit 5;
++----+--------+
+| id | wage_2 |
++----+--------+
+| 16 |  85742 |
+| 15 | 758483 |
+| 14 | 475822 |
+| 13 |  57383 |
+| 12 |  36248 |
++----+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from qq_wage order by id desc limit 5,5;
++----+--------+
+| id | wage_2 |
++----+--------+
+| 11 |  96775 |
+| 10 |   8000 |
+|  9 |   7000 |
+|  8 |   6000 |
+|  7 |   5000 |
++----+--------+
+5 rows in set (0.00 sec)
+
+mysql> select max(wage_1),min(wage_1) from wx_wage;
++-------------+-------------+
+| max(wage_1) | min(wage_1) |
++-------------+-------------+
+|     6473648 |        1000 |
++-------------+-------------+
+1 row in set (0.16 sec)
+
+mysql> select max(wage_2),min(wage_2) from qq_wage;
++-------------+-------------+
+| max(wage_2) | min(wage_2) |
++-------------+-------------+
+|     4727428 |        2000 |
++-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select greatest(
+    -> (select max(wage_1) from wx_wage),
+    -> (select max(wage_2) from qq_wage));
++---------------------------------------------------------------------------------+
+| greatest(
+(select max(wage_1) from wx_wage),
+(select max(wage_2) from qq_wage)) |
++---------------------------------------------------------------------------------+
+|                                                                         6473648 |
++---------------------------------------------------------------------------------+
+1 row in set (0.12 sec)
+
+mysql> select greatest( (select min(wage_1) from wx_wage), (select min(wage_2) from qq_wage));
++---------------------------------------------------------------------------------+
+| greatest( (select min(wage_1) from wx_wage), (select min(wage_2) from qq_wage)) |
++---------------------------------------------------------------------------------+
+|                                                                            2000 |
++---------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+
+
+
+
+
+
