@@ -1,0 +1,216 @@
+1-HOMEWORK-COLLECT TABLE:
+
+mysql> use hello_mysql;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+mysql> create table collect(
+    -> id int auto_increment primary key,
+    -> thing varchar(30));
+Query OK, 0 rows affected (0.67 sec)
+
+mysql> insert into collect(thing) values("lipstick"),("shoes"),("overcoat");
+Query OK, 3 rows affected (0.13 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from collect;
++----+----------+
+| id | thing    |
++----+----------+
+|  1 | lipstick |
+|  2 | shoes    |
+|  3 | overcoat |
++----+----------+
+3 rows in set (0.00 sec)
+
+mysql> delete from collect where id=1;
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select * from collect;
++----+----------+
+| id | thing    |
++----+----------+
+|  2 | shoes    |
+|  3 | overcoat |
++----+----------+
+2 rows in set (0.01 sec)
+
+mysql> select * from collect where thing="shoes";
++----+-------+
+| id | thing |
++----+-------+
+|  2 | shoes |
++----+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from collect where id=2;
++----+-------+
+| id | thing |
++----+-------+
+|  2 | shoes |
++----+-------+
+1 row in set (0.00 sec)
+--------------------------------------------------------------------------------------------------------------------------
+
+2-HOMEWORK-FLIM TABLE:
+
+mysql> create table films( id int auto_increment primary key, film_name varchar(30), film_director varchar(30), film_year int, film_grade varchar(30));
+Query OK, 0 rows affected (0.42 sec)
+
+mysql> insert into films(film_name,film_director,film_year,film_grade)
+    -> values("Titanic","James Camero",1997,"9.3");
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select * from films;
++----+-----------+---------------+-----------+------------+
+| id | film_name | film_director | film_year | film_grade |
++----+-----------+---------------+-----------+------------+
+|  1 | Titanic   | James Camero  |      1997 | 9.3        |
++----+-----------+---------------+-----------+------------+
+1 row in set (0.06 sec)
+
+mysql> insert into films(film_name,film_director,film_year,film_grade) values("Flipped","Rob Reiner",2010,"9.0"), ("yewen1","vera1",2010,"8.7"), ("yewen2","vera2",1998,"7.2"), ("yewen3","vera3",2018,"9.5");
+Query OK, 4 rows affected (0.28 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from films;
++----+-----------+---------------+-----------+------------+
+| id | film_name | film_director | film_year | film_grade |
++----+-----------+---------------+-----------+------------+
+|  1 | Titanic   | James Camero  |      1997 | 9.3        |
+|  2 | Flipped   | Rob Reiner    |      2010 | 9.0        |
+|  3 | yewen1    | vera1         |      2010 | 8.7        |
+|  4 | yewen2    | vera2         |      1998 | 7.2        |
+|  5 | yewen3    | vera3         |      2018 | 9.5        |
++----+-----------+---------------+-----------+------------+
+5 rows in set (0.01 sec)
+mysql> select * from films where film_name like "%yewen%";
++----+-----------+---------------+-----------+------------+
+| id | film_name | film_director | film_year | film_grade |
++----+-----------+---------------+-----------+------------+
+|  3 | yewen1    | vera1         |      2010 | 8.7        |
+|  4 | yewen2    | vera2         |      1998 | 7.2        |
+|  5 | yewen3    | vera3         |      2018 | 9.5        |
++----+-----------+---------------+-----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from films where film_director like "%vera%";
++----+-----------+---------------+-----------+------------+
+| id | film_name | film_director | film_year | film_grade |
++----+-----------+---------------+-----------+------------+
+|  3 | yewen1    | vera1         |      2010 | 8.7        |
+|  4 | yewen2    | vera2         |      1998 | 7.2        |
+|  5 | yewen3    | vera3         |      2018 | 9.5        |
++----+-----------+---------------+-----------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from films where film_director like 2010;
+Empty set (0.00 sec)
+
+mysql> select * from films where film_year like 2010;
++----+-----------+---------------+-----------+------------+
+| id | film_name | film_director | film_year | film_grade |
++----+-----------+---------------+-----------+------------+
+|  2 | Flipped   | Rob Reiner    |      2010 | 9.0        |
+|  3 | yewen1    | vera1         |      2010 | 8.7        |
++----+-----------+---------------+-----------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select max(film_grade) from films;
++-----------------+
+| max(film_grade) |
++-----------------+
+| 9.5             |
++-----------------+
+1 row in set (0.03 sec)
+
+mysql> select * from films where films.film_grade in(
+    -> select max(film_grade) from films);
++----+-----------+---------------+-----------+------------+
+| id | film_name | film_director | film_year | film_grade |
++----+-----------+---------------+-----------+------------+
+|  5 | yewen3    | vera3         |      2018 | 9.5        |
++----+-----------+---------------+-----------+------------+
+1 row in set (0.29 sec)
+-----------------------------------------------------------------------------------------------------------------------
+3-HOMEWORK-EMPNO:
+
+mysql> select * from emp;
++-------+--------+-----------+------+------------+------+---------+--------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL  | COMM    | DEPTNO |
++-------+--------+-----------+------+------------+------+---------+--------+
+|  7369 | SMITH  | CLERK     | 7902 | 1980/12/17 |  800 |         | 20     |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981/2/20  | 1600 | 300.00  | 30     |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981/2/22  | 1250 | 500.00  | 30     |
+|  7566 | JONES  | MANAGER   | 7839 | 1981/4/2   | 2975 |         | 20     |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981/9/28  | 1250 | 1400.00 | 30     |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981/5/1   | 2850 |         | 30     |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981/6/9   | 2450 |         | 10     |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1987/4/19  | 3000 |         | 20     |
+|  7839 | KING   | PRESIDENT |      | 1981/11/17 | 5000 |         | 10     |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981/9/8   | 1500 | 0.00    | 30     |
+|  7876 | ADAMS  | CLERK     | 7788 | 1987/5/23  | 1100 |         | 20     |
+|  7900 | JAMES  | CLERK     | 7698 | 1981/12/3  |  950 |         | 30     |
+|  7902 | FORD   | ANALYST   | 7566 | 1981/12/3  | 3000 |         | 20     |
+|  7934 | MILLER | CLERK     | 7782 | 1982/1/23  | 1300 |         | 0      |
++-------+--------+-----------+------+------------+------+---------+--------+
+14 rows in set (0.18 sec)
+
+mysql> select * from dept;
++--------+------------+----------+
+| DEPTNO | DNAME      | LOC      |
++--------+------------+----------+
+|     10 | ACCOUNTING | NEW YORK |
+|     20 | RESEARCH   | DALLAS   |
+|     30 | SALES      | CHICAGO  |
+|     40 | OPERATIONS | BOSTON   |
++--------+------------+----------+
+4 rows in set (0.29 sec)
+
+mysql> select * from emp,dept where emp.empno in(select max(empno) from emp group by deptno having count(deptno)>1) and emp.deptno=dept.deptno;
++-------+-------+-----------+------+------------+------+------+--------+--------+------------+----------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | DEPTNO | DNAME      | LOC      |
++-------+-------+-----------+------+------------+------+------+--------+--------+------------+----------+
+|  7839 | KING  | PRESIDENT |      | 1981/11/17 | 5000 |      | 10     |     10 | ACCOUNTING | NEW YORK |
+|  7900 | JAMES | CLERK     | 7698 | 1981/12/3  |  950 |      | 30     |     30 | SALES      | CHICAGO  |
+|  7902 | FORD  | ANALYST   | 7566 | 1981/12/3  | 3000 |      | 20     |     20 | RESEARCH   | DALLAS   |
++-------+-------+-----------+------+------------+------+------+--------+--------+------------+----------+
+3 rows in set (0.08 sec)
+---------------------------------------------------------------------------------------------------------------------
+4-Homework-Users Login:
+
+mysql> create table users( id int auto_increment primary key, user_name varchar(30), login_method varchar(30), login_time varchar(30));
+
+mysql> insert into users(user_name,login_method,login_time) values("zh","app","2018-10-5") , ("vera","pc","2018-12-10"), ("hahah","pc","2018-12-14"), ("youyouyou","pad","2018-1-24");
+
+mysql> select * from users;                                                     +----+-----------+--------------+------------+
+| id | user_name | login_method | login_time |
++----+-----------+--------------+------------+
+|  1 | zh        | app          | 2018-10-5  |
+|  2 | vera      | pc           | 2018-12-10 |
+|  3 | hahah     | pc           | 2018-12-14 |
+|  4 | youyouyou | pad          | 2018-1-24  |
++----+-----------+--------------+------------+
+4 rows in set (0.01 sec)
+
+
+mysql> select case
+    -> when abs(datediff(login_time,now()))>=30 then 'Go to hell'
+    -> when abs(datediff(login_time,now()))>=9 then 'Can you come back'
+    -> when abs(datediff(login_time,now()))>=7 then 'Little genius,come back soon'
+    -> end from users;
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| case
+when abs(datediff(login_time,now()))>=30 then 'Go to hell'
+when abs(datediff(login_time,now()))>=9 then 'Can you come back'
+when abs(datediff(login_time,now()))>=7 then 'Little genius,come back soon'
+end |
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Go to hell                                                                                                                                                                                                       |
+| Can you come back                                                                                                                                                                                                |
+| Can you come back                                                                                                                                                                                                |
+| Go to hell                                                                                                                                                                                                       |
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+4 rows in set (0.00 sec)
+
+
